@@ -4,24 +4,26 @@
 
 package frc.robot;
 
+import frc.robot.hardware.SwervetrainHardware;
+import frc.robot.oi.OperatorInterface;
+import frc.robot.subsystems.Swervetrain;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/**
- * The methods in this class are called automatically corresponding to each mode, as described in
- * the TimedRobot documentation. If you change the name of this class or the package after creating
- * this project, you must also update the Main.java file in the project.
- */
+
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+  OperatorInterface operatorInterface;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
+  SwervetrainHardware swerveHardware;
+  Swervetrain swerve;
+
   public Robot() {
+    operatorInterface = new OperatorInterface();
+    swerveHardware = new SwervetrainHardware();
+    swerve = new Swervetrain(swerveHardware);
 
   }
 
@@ -73,9 +75,13 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    // update motor target and speed for swerve modules
+    swerve.arcadeDrive(operatorInterface.getSpeed(), operatorInterface.getDirection(), operatorInterface.getRotate());
+
+  }
 
   @Override
   public void testInit() {
@@ -83,15 +89,12 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
   }
 
-  /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
 
-  /** This function is called once when the robot is first started up. */
   @Override
   public void simulationInit() {}
 
-  /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
 }

@@ -6,7 +6,6 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import frc.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.Encoder; 
 
 public class DrivetrainHardware implements IDrivetrainHardware {
